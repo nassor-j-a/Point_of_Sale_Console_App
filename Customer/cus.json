@@ -1,0 +1,27 @@
+[
+    {
+        "Customer_Name": "Mildred Kingston",
+        "Gender": "Female",
+        "Phone_Number": 234
+    },
+    {
+        "Customer_Name": "Mercy Tonui",
+        "Gender": "Female",
+        "Phone_Number": 345
+    },
+    {
+        "Customer_Name": "Brian Otieno",
+        "Gender": "Male",
+        "Phone_Number": 567
+    },
+    {
+        "Customer_Name": "Christine Wabosha",
+        "Gender": "Female",
+        "Phone_Number": "911"
+    },
+    {
+        "Customer_Name": "Haifa Mbaruku",
+        "Gender": "Female",
+        "Phone_Number": "667"
+    }
+]
