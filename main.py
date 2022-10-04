@@ -19,54 +19,47 @@ def main_menu():
         ----------------------------------------------
         """)
 
-        try:
-            choice = int(input('Enter a Menu option to continue:'))
+        choice = input('Enter a Menu option to continue:')
 
-            if choice == 1:
+        if choice == "1":
 
-                from Order.process_order import p_order
-                p_order()
+            from Order.process_order import p_order
+            p_order()
 
-                # To avoid continuous looping
-                break
+            # To avoid continuous looping
+            break
 
-            elif choice == 2:
+        elif choice == "2":
 
-                from Product.product import product_info
+            from Product.product import product_info
 
-                product_info()
+            product_info()
 
-                break
+            break
 
-            elif choice == 3:
+        elif choice == "3":
 
-                from Customer.customer import customer_info
+            from Customer.customer import customer_info
 
-                customer_info()
+            customer_info()
 
-                break
+            break
 
-            elif choice == 4:
+        elif choice == "4":
 
-                from search import search_here
+            from search import search_here
 
-                search_here()
+            search_here()
 
-                break
+            break
 
-            elif choice == 5:
+        elif choice == "5":
 
-                # exit can't be here, the loop will still execute
-                break
+            exit()
 
-            else:
-                print('INVALID OPTION! Enter 1 - 4!')
-                main_menu()
-
-        except ValueError:
-
-            print('System does not recognize alphabets! Enter 1 - 4!')
-    exit()
+        else:
+            print('\nINVALID OPTION! Enter 1 - 4!')
+            main_menu()
 
 
 main_menu()

@@ -20,32 +20,30 @@ def product_info():
 
         ----------------------------------------------
         """)
-        choice = int(input('Enter a Menu option to continue:'))
+        choice = input('Enter a Menu option to continue:')
 
-        if choice == 1:
+        if choice == "1":
 
             add_product()
 
-        elif choice == 2:
+        elif choice == "2":
 
             view_product()
 
-        elif choice == 3:
+        elif choice == "3":
 
             update_product()
 
-        elif choice == 4:
+        elif choice == "4":
 
             delete_product()
 
-        elif choice == 5:
+        elif choice == "5":
             from main import main_menu
 
             main_menu()
         else:
-            print('INVALID MENU OPTION! Enter 1-5')
-
-    exit()
+            print('\nINVALID MENU OPTION! Enter 1-5')
 
 
 def add_product():
@@ -56,8 +54,21 @@ def add_product():
         temp = json.load(json_file)
 
     prod_data["Product_Name"] = input("\nEnter product's name: ")
-    prod_data["Product_Price"] = input("\nEnter price: ")
-    prod_data["Product_Quantity"] = input("\nEnter quantity: ")
+    while True:
+        try:
+            prod_data["Product_Price"] = int(input("\nEnter price: "))
+        except ValueError:
+            print(f"\nINVALID INPUT! Product price can't be an Alphabet")
+            continue
+        break
+
+    while True:
+        try:
+            prod_data["Product_Quantity"] = int(input("\nEnter quantity: "))
+        except ValueError:
+            print(f"\nINVALID INPUT! Product quantity can't be an Alphabet")
+            continue
+        break
     temp.append(prod_data)
     with open("prod.json", "w") as json_file:
         json.dump(temp, json_file, indent=4)
@@ -86,7 +97,18 @@ def delete_product():
     with open("prod.json", "r") as json_file:
         temp = json.load(json_file)
         data_length = len(temp)
-        delete_opt = input(f"\nEnter Product ID(1 - {data_length}) of the product you want to delete:")
+        while True:
+            try:
+                delete_opt = int(input(f"\nEnter Product ID(1 - {data_length}) of the product you want to delete:"))
+            except ValueError:
+                print(f"\nINVALID INPUT! Product ID can't be an Alphabet")
+                continue
+            if delete_opt > data_length:
+                print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
+                continue
+            else:
+                break
+
         i = 1
         for entry in temp:
             if i == int(delete_opt):
@@ -106,7 +128,18 @@ def update_product():
     with open("prod.json", "r") as json_file:
         temp = json.load(json_file)
         data_length = len(temp)
-        update_opt = input(f"\nEnter Product ID(1 - {data_length}) of the product you want to update their data:")
+        while True:
+            try:
+                update_opt = int(input(f"\nEnter Product ID(1 - {data_length})"
+                                       f"of the product you want to update its data:"))
+            except ValueError:
+                print(f"\nINVALID INPUT! Product ID can't be an Alphabet!")
+                continue
+            if update_opt > data_length:
+                print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
+                continue
+            else:
+                break
         i = 1
         for entry in temp:
             if i == int(update_opt):
@@ -114,19 +147,32 @@ def update_product():
                 prod_price = entry["Product_Price"]
                 prod_qty = entry["Product_Quantity"]
                 print(f"Product name: {prod_name}")
-                prod_name = input("Enter new product name: ")
+                prod_name = input("Enter updated product name: ")
                 print(f"Price: {prod_price}")
-                prod_price = input("Enter new product price: ")
+                while True:
+                    try:
+                        prod_price = int(input("\nEnter updated product price: "))
+                    except ValueError:
+                        print(f"\nINVALID INPUT! Product price can't be an Alphabet")
+                        continue
+                    break
                 print(f"Quantity: {prod_qty}")
-                prod_qty = input("Enter new product quantity: ")
-                print("\n")
+                while True:
+                    try:
+                        prod_qty = int(input("\nEnter updated product quantity: "))
+                    except ValueError:
+                        print(f"\nINVALID INPUT! Product quantity can't be an Alphabet")
+                        continue
+                    break
                 updated_prod_list.append({"Product_Name": prod_name,
                                           "Product_Price": prod_price,
                                           "Product_Quantity": prod_qty})
                 i = i + 1
+
             else:
                 updated_prod_list.append(entry)
                 i = i + 1
+
     with open("prod.json", "w") as json_file:
         json.dump(updated_prod_list, json_file, indent=4)
         print("\nProduct updated successfully!")

@@ -4,7 +4,7 @@ def p_order():
         ----------------------------------------------
         Order Sub-Menu:-
 
-        1) Process order
+        1) Process an order
 
         2) Processed order(s)
 
@@ -12,22 +12,20 @@ def p_order():
 
         ----------------------------------------------
         """)
-        choice = int(input('Enter a Menu option to continue:'))
+        choice = input('Enter a Menu option to continue:')
 
-        if choice == 1:
-
-            print('-----Under construction-----')
-        elif choice == 2:
+        if choice == "1":
 
             print('-----Under construction-----')
-        elif choice == 3:
+        elif choice == "2":
+
+            print('-----Under construction-----')
+        elif choice == "3":
             from main import main_menu
 
             main_menu()
         else:
             print('INVALID MENU OPTION! Enter 1-3')
-
-    exit()
 
 
 p_order()

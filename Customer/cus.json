@@ -17,11 +17,26 @@
     {
         "Customer_Name": "Christine Wabosha",
         "Gender": "Female",
-        "Phone_Number": "911"
+        "Phone_Number": 911
     },
     {
-        "Customer_Name": "Haifa Mbaruku",
+        "Customer_Name": "Haifa Mbarak",
         "Gender": "Female",
-        "Phone_Number": "667"
+        "Phone_Number": 667
+    },
+    {
+        "Customer_Name": "Muthoni Jane",
+        "Gender": "Female",
+        "Phone_Number": 889
+    },
+    {
+        "Customer_Name": "Kamotho Mbuthia",
+        "Gender": "Male",
+        "Phone_Number": 567
+    },
+    {
+        "Customer_Name": "Johnson Gadaffi",
+        "Gender": "Male",
+        "Phone_Number": 890
     }
 ]

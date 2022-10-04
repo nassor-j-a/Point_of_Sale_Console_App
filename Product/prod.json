@@ -1,22 +1,27 @@
 [
     {
         "Product_Name": "Ginger",
-        "Product_Price": "140",
-        "Product_Quantity": "1000"
+        "Product_Price": 140,
+        "Product_Quantity": 1000
     },
     {
         "Product_Name": "Garlic",
-        "Product_Price": "50",
-        "Product_Quantity": "120"
+        "Product_Price": 50,
+        "Product_Quantity": 120
     },
     {
         "Product_Name": "Pepper",
-        "Product_Price": "10",
-        "Product_Quantity": "100"
+        "Product_Price": 10,
+        "Product_Quantity": 100
     },
     {
         "Product_Name": "Tumeric",
-        "Product_Price": "150",
-        "Product_Quantity": "160"
+        "Product_Price": 150,
+        "Product_Quantity": 160
+    },
+    {
+        "Product_Name": "Egg-plant",
+        "Product_Price": 115,
+        "Product_Quantity": 55
     }
 ]
