@@ -1,0 +1,65 @@
+[
+    {
+        "Ord1": {
+            "Customer Name": "Brian Otieno",
+            "Prod1": {
+                "Product_id": 3,
+                "Product_Name": "Pepper",
+                "Product_Price": 10,
+                "Product_Quantity": 3,
+                "Sub-Total": 30
+            },
+            "Prod2": {
+                "Product_id": 4,
+                "Product_Name": "Tumeric",
+                "Product_Price": 150,
+                "Product_Quantity": 4,
+                "Sub-Total": 600
+            },
+            "Prod3": {
+                "Product_id": 5,
+                "Product_Name": "Egg-plant",
+                "Product_Price": 115,
+                "Product_Quantity": 5,
+                "Sub-Total": 575
+            },
+            "Total": 1205
+        },
+        "Ord2": {
+            "Customer Name": "Haifa Mbarak",
+            "Prod1": {
+                "Product_id": 2,
+                "Product_Name": "Garlic",
+                "Product_Price": 50,
+                "Product_Quantity": 2,
+                "Sub-Total": 100
+            },
+            "Prod2": {
+                "Product_id": 3,
+                "Product_Name": "Pepper",
+                "Product_Price": 10,
+                "Product_Quantity": 3,
+                "Sub-Total": 30
+            },
+            "Total": 130
+        },
+        "Ord3": {
+            "Customer Name": "Mildred Kingston",
+            "Prod1": {
+                "Product_id": 1,
+                "Product_Name": "Ginger",
+                "Product_Price": 140,
+                "Product_Quantity": 1,
+                "Sub-Total": 140
+            },
+            "Prod2": {
+                "Product_id": 2,
+                "Product_Name": "Garlic",
+                "Product_Price": 50,
+                "Product_Quantity": 2,
+                "Sub-Total": 100
+            },
+            "Total": 240
+        }
+    }
+]
