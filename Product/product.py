@@ -50,7 +50,7 @@ def add_product():
     # creating an empty dictionary
     prod_data = {}
 
-    with open("prod.json", "r") as json_file:
+    with open("Product/prod.json", "r") as json_file:
         temp = json.load(json_file)
 
     prod_data["Product_Name"] = input("\nEnter product's name: ")
@@ -70,13 +70,13 @@ def add_product():
             continue
         break
     temp.append(prod_data)
-    with open("prod.json", "w") as json_file:
+    with open("Product/prod.json", "w") as json_file:
         json.dump(temp, json_file, indent=4)
         print("\nProduct Added successfully!")
 
 
 def view_product():
-    with open("prod.json", "r") as json_file:
+    with open("Product/prod.json", "r") as json_file:
         temp = json.load(json_file)
         i = 1
         for entry in temp:
@@ -94,7 +94,7 @@ def view_product():
 def delete_product():
     view_product()
     sieved_data = []
-    with open("prod.json", "r") as json_file:
+    with open("Product/prod.json", "r") as json_file:
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
@@ -117,7 +117,7 @@ def delete_product():
             else:
                 sieved_data.append(entry)
                 i = i + 1
-    with open("prod.json", "w") as json_file:
+    with open("Product/prod.json", "w") as json_file:
         json.dump(sieved_data, json_file, indent=4)
         print("\nProduct deleted successfully!")
 
@@ -125,7 +125,7 @@ def delete_product():
 def update_product():
     view_product()
     updated_prod_list = []
-    with open("prod.json", "r") as json_file:
+    with open("Product/prod.json", "r") as json_file:
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
@@ -173,9 +173,9 @@ def update_product():
                 updated_prod_list.append(entry)
                 i = i + 1
 
-    with open("prod.json", "w") as json_file:
+    with open("Product/prod.json", "w") as json_file:
         json.dump(updated_prod_list, json_file, indent=4)
         print("\nProduct updated successfully!")
 
 
-product_info()
+# product_info()

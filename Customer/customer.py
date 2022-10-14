@@ -52,7 +52,7 @@ def add_customer():
     # creating an empty dictionary
     cus_data = {}
 
-    with open("cus.json", "r") as json_file:
+    with open("Customer/cus.json", "r") as json_file:
         temp = json.load(json_file)
 
     cus_data["Customer_Name"] = input("\nEnter customer's full name: ")
@@ -79,13 +79,13 @@ def add_customer():
             continue
         break
     temp.append(cus_data)
-    with open("cus.json", "w") as json_file:
+    with open("Customer/cus.json", "w") as json_file:
         json.dump(temp, json_file, indent=4)
         print("\nCustomer Added successfully!")
 
 
 def view_customer():
-    with open("cus.json", "r") as json_file:
+    with open("Customer/cus.json", "r") as json_file:
         temp = json.load(json_file)
         i = 1
         for entry in temp:
@@ -103,7 +103,7 @@ def view_customer():
 def delete_customer():
     view_customer()
     sieved_data = []
-    with open("cus.json", "r") as json_file:
+    with open("Customer/cus.json", "r") as json_file:
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
@@ -127,7 +127,7 @@ def delete_customer():
                 sieved_data.append(entry)
                 i = i + 1
 
-    with open("cus.json", "w") as json_file:
+    with open("Customer/cus.json", "w") as json_file:
         json.dump(sieved_data, json_file, indent=4)
         print("\nCustomer deleted successfully!")
 
@@ -135,7 +135,7 @@ def delete_customer():
 def update_customer():
     view_customer()
     updated_cus_list = []
-    with open("cus.json", "r") as json_file:
+    with open("Customer/cus.json", "r") as json_file:
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
@@ -188,9 +188,9 @@ def update_customer():
             else:
                 updated_cus_list.append(entry)
                 i = i + 1
-    with open("cus.json", "w") as json_file:
+    with open("Customer/cus.json", "w") as json_file:
         json.dump(updated_cus_list, json_file, indent=4)
         print("\nCustomer updated successfully!")
 
 
-customer_info()
+# customer_info()
