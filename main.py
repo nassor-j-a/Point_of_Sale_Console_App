@@ -7,7 +7,7 @@ def main_menu():
         ----------------------------------------------
         Menu:-
 
-        1) Order
+        1) Purchase
 
         2) Product
 

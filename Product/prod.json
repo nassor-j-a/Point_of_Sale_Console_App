@@ -17,11 +17,16 @@
     {
         "Product_Name": "Tumeric",
         "Product_Price": 150,
-        "Product_Quantity": 81
+        "Product_Quantity": 74
     },
     {
         "Product_Name": "Egg-plant",
         "Product_Price": 115,
-        "Product_Quantity": 393
+        "Product_Quantity": 387
+    },
+    {
+        "Product_Name": "Onion",
+        "Product_Price": 60,
+        "Product_Quantity": 500
     }
 ]
