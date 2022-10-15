@@ -107,12 +107,12 @@ def delete_customer():
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
-            # try:
-            delete_opt = int(input(f"\nEnter Customer ID(1 - {data_length}) of the customer you want to delete:"))
-            # except ValueError:
-            #     print(f"\nINVALID INPUT! Customer ID can't be an Alphabet")
-            #     continue
-            if delete_opt not in range(1, data_length):
+            try:
+                delete_opt = int(input(f"\nEnter Customer ID(1 - {data_length}) of the customer you want to delete:"))
+            except ValueError:
+                print(f"\nINVALID INPUT! Customer ID can't be an Alphabet")
+                continue
+            if delete_opt > data_length:
                 print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
                 continue
             else:
@@ -139,13 +139,13 @@ def update_customer():
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
-            # try:
-            update_opt = int(input(f"\nEnter Customer ID(1 - {data_length})"
+            try:
+                update_opt = int(input(f"\nEnter Customer ID(1 - {data_length})"
                                    f"of the customer you want to update their data:"))
-            # except ValueError:
-            #     print(f"\nINVALID INPUT! Customer ID can't be an Alphabet!")
-            #     continue
-            if update_opt not in range(1, data_length):
+            except ValueError:
+                print(f"\nINVALID INPUT! Customer ID can't be an Alphabet!")
+                continue
+            if update_opt > data_length:
                 print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
                 continue
             else:

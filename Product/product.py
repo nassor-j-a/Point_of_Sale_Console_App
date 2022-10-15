@@ -83,11 +83,8 @@ def view_product():
             prod_name = entry["Product_Name"]
             prod_price = entry["Product_Price"]
             prod_qty = entry["Product_Quantity"]
-            print(f"\nProductID: {i}")
-            print(f"Product name: {prod_name}")
-            print(f"Price: {prod_price}")
-            print(f"Quantity: {prod_qty}")
-            print("\n")
+            print(f"ProductID: {i}")
+            print(f"Product name: {prod_name} , Price: {prod_price}, Quantity: {prod_qty}")
             i = i + 1
 
 
@@ -98,12 +95,12 @@ def delete_product():
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
-            # try:
-            delete_opt = int(input(f"\nEnter Product ID(1 - {data_length}) of the product you want to delete:"))
-            # except ValueError:
-            #     print(f"\nINVALID INPUT! Product ID can't be an Alphabet")
-            #     continue
-            if delete_opt not in range(1, data_length):
+            try:
+                delete_opt = int(input(f"\nEnter Product ID(1 - {data_length}) of the product you want to delete:"))
+            except ValueError:
+                print(f"\nINVALID INPUT! Product ID can't be an Alphabet")
+                continue
+            if delete_opt > data_length:
                 print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
                 continue
             else:
@@ -129,13 +126,13 @@ def update_product():
         temp = json.load(json_file)
         data_length = len(temp)
         while True:
-            # try:
-            update_opt = int(input(f"\nEnter Product ID(1 - {data_length})"
-                                   f"of the product you want to update its data:"))
-            # except ValueError:
-            #     print(f"\nINVALID INPUT! Product ID can't be an Alphabet!")
-            #     continue
-            if update_opt not in range(1, data_length):
+            try:
+                update_opt = int(input(f"\nEnter Product ID(1 - {data_length})"
+                                       f"of the product you want to update its data:"))
+            except ValueError:
+                print(f"\nINVALID INPUT! Product ID can't be an Alphabet!")
+                continue
+            if update_opt > data_length:
                 print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
                 continue
             else:
