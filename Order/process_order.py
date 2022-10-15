@@ -9,9 +9,9 @@ def p_order():
         ----------------------------------------------
         Order Sub-Menu:-
 
-        1) Process an order
+        1) Purchase products
 
-        2) Processed order(s)
+        2) List purchases
 
         3) Back to Main Menu
 
@@ -281,9 +281,28 @@ def create_pur_id():
         return new_id
 
 
+# Generating a purchase list
 def completed_orders():
+    with open("Order/order.json", "r") as json_file:
+        o_temp = json.load(json_file)
+    [strip_o_temp] = o_temp
+
     print("\n------- Processed Orders ---------\n")
 
+    for i in strip_o_temp:
+        print(f"Order: {i}")
+        for j in strip_o_temp[i]:
+            if j == "Customer Name":
+                print(f"Customer Name: {strip_o_temp[i]['Customer Name']}")
+            elif j == "Total":
+                print(f"Total is Ksh:  {strip_o_temp[i]['Total']}\n")
+            else:
+                p_name = strip_o_temp[i][j]['Product_Name']
+                p_price = strip_o_temp[i][j]['Product_Price']
+                p_qty = strip_o_temp[i][j]['Product_Quantity']
+                sub = strip_o_temp[i][j]['Sub-Total']
+                print(f"Product Name: {p_name}, Product Price: {p_price}, "
+                      f"Product Quantity: {p_qty}, Sub-Total: {sub}")
     exit()
 
 # p_order()
