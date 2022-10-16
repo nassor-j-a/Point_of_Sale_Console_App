@@ -9,13 +9,9 @@ def product_info():
         Product Sub-Menu:-
 
         1) Add Product
-
-        2) Available Products
-
+        2) List Products
         3) Update Product
-
         4) Delete Product
-
         5) Back to Main Menu
 
         ----------------------------------------------
@@ -54,13 +50,6 @@ def add_product():
         temp = json.load(json_file)
 
     prod_data["Product_Name"] = input("\nEnter product's name: ")
-    while True:
-        try:
-            prod_data["Product_Price"] = int(input("\nEnter price: "))
-        except ValueError:
-            print(f"\nINVALID INPUT! Product price can't be an Alphabet")
-            continue
-        break
 
     while True:
         try:
@@ -68,6 +57,14 @@ def add_product():
         except ValueError:
             print(f"\nINVALID INPUT! Product quantity can't be an Alphabet")
             continue
+        break
+    while True:
+        try:
+            p_price = int(input("\nEnter price: "))
+        except ValueError:
+            print(f"\nINVALID INPUT! Product price can't be an Alphabet")
+            continue
+        prod_data["Product_Price"] = '{:.2f}'.format(p_price)
         break
     temp.append(prod_data)
     with open("Product/prod.json", "w") as json_file:
@@ -81,10 +78,10 @@ def view_product():
         i = 1
         for entry in temp:
             prod_name = entry["Product_Name"]
-            prod_price = entry["Product_Price"]
             prod_qty = entry["Product_Quantity"]
+            prod_price = entry["Product_Price"]
             print(f"ProductID: {i}")
-            print(f"Product name: {prod_name} , Price: {prod_price}, Quantity: {prod_qty}")
+            print(f"Product name: {prod_name} , Quantity: {prod_qty}, Price: Ksh. {prod_price}")
             i = i + 1
 
 
@@ -145,14 +142,6 @@ def update_product():
                 prod_qty = entry["Product_Quantity"]
                 print(f"Product name: {prod_name}")
                 prod_name = input("Enter updated product name: ")
-                print(f"Price: {prod_price}")
-                while True:
-                    try:
-                        prod_price = int(input("\nEnter updated product price: "))
-                    except ValueError:
-                        print(f"\nINVALID INPUT! Product price can't be an Alphabet")
-                        continue
-                    break
                 print(f"Quantity: {prod_qty}")
                 while True:
                     try:
@@ -161,9 +150,18 @@ def update_product():
                         print(f"\nINVALID INPUT! Product quantity can't be an Alphabet")
                         continue
                     break
+                print(f"Price: Ksh. {prod_price}")
+                while True:
+                    try:
+                        updtprod_price = int(input("\nEnter updated product price: "))
+                    except ValueError:
+                        print(f"\nINVALID INPUT! Product price can't be an Alphabet")
+                        continue
+                    prod_price = '{:.2f}'.format(updtprod_price)
+                    break
                 updated_prod_list.append({"Product_Name": prod_name,
-                                          "Product_Price": prod_price,
-                                          "Product_Quantity": prod_qty})
+                                          "Product_Quantity": prod_qty,
+                                          "Product_Price": prod_price})
                 i = i + 1
 
             else:

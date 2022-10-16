@@ -10,13 +10,9 @@ def customer_info():
         Customer Sub-Menu:-
 
         1) Add Customer
-
-        2) Available Customers
-
+        2) List Customers
         3) Update Customer
-
         4) Delete Customer
-
         5) Back to Main Menu
 
         ----------------------------------------------
@@ -92,11 +88,8 @@ def view_customer():
             cus_name = entry["Customer_Name"]
             gender = entry["Gender"]
             tel = entry["Phone_Number"]
-            print(f"\nCustomerID: {i}")
-            print(f"Name: {cus_name}")
-            print(f"Gender: {gender}")
-            print(f"Phone number: {tel}")
-            print("\n")
+            print(f"CustomerID: {i}")
+            print(f"Name: {cus_name}, Gender: {gender}, Phone number: {tel}")
             i = i + 1
 
 
@@ -141,7 +134,7 @@ def update_customer():
         while True:
             try:
                 update_opt = int(input(f"\nEnter Customer ID(1 - {data_length})"
-                                   f"of the customer you want to update their data:"))
+                                       f"of the customer you want to update their data:"))
             except ValueError:
                 print(f"\nINVALID INPUT! Customer ID can't be an Alphabet!")
                 continue

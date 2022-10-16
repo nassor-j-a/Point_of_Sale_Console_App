@@ -8,13 +8,9 @@ def main_menu():
         Menu:-
 
         1) Purchase
-
         2) Product
-
         3) Customer
-
         4) Search
-
         5) Exit
         ----------------------------------------------
         """)
@@ -47,7 +43,7 @@ def main_menu():
 
         elif choice == "4":
 
-            from search import search_here
+            from Search.search import search_here
 
             search_here()
 

@@ -7,12 +7,10 @@ def p_order():
     while True:
         print("""
         ----------------------------------------------
-        Order Sub-Menu:-
+        Purchase Sub-Menu:-
 
         1) Purchase products
-
         2) List purchases
-
         3) Back to Main Menu
 
         ----------------------------------------------
@@ -45,24 +43,28 @@ def process_order():
         view_customer()
         with open(cus_file, "r") as json_file:
             cus_temp = json.load(json_file)
-        data_lent = len(cus_temp) + 1
-        while True:
-            cust_id = int(input(f"\nEnter Customer ID(1-{data_lent}) of the buyer:"))
-            if cust_id in range(1, data_lent):
-                break
-            else:
-                print("CUSTOMER DOES NOT EXIST! Enter VALID Customer ID!")
-                continue
+            data_lent = len(cus_temp)
+            while True:
+                try:
+                    cust_id = int(input(f"\nEnter Customer ID(1-{data_lent}) of the buyer:"))
+                except ValueError:
+                    print(f"\nINVALID INPUT! Selection can't be an Alphabet")
+                    continue
+                if cust_id > data_lent:
+                    print("CUSTOMER DOES NOT EXIST! Enter VALID Customer ID!")
+                    continue
+                else:
+                    break
 
-        i = 1
-        for entry in cus_temp:
-            if i == int(cust_id):
-                fin_order["Customer Name"] = entry["Customer_Name"]
-                order_temp.append(fin_order)
-                i = i + 1
-            else:
-                pass
-                i = i + 1
+            i = 1
+            for entry in cus_temp:
+                if i == int(cust_id):
+                    fin_order["Customer Name"] = entry["Customer_Name"]
+                    order_temp.append(fin_order)
+                    i = i + 1
+                else:
+                    pass
+                    i = i + 1
         from Product.product import view_product
         view_product()
 
@@ -72,7 +74,7 @@ def process_order():
 
         with open("Order/cart.json", "r") as json_file:
             cart_temp = json.load(json_file)
-
+        # ERROR HANDLING EXPECTED
         opt = int(input(f"Enter Product ID(1 - {data_length}) of item you wish to add to cart:"))
         i = 1
         for entry in prod_temp:
@@ -83,14 +85,14 @@ def process_order():
                 prod_qty = entry["Product_Quantity"]
                 fin_order[prod_id]["Product_id"] = opt
                 fin_order[prod_id]["Product_Name"] = entry["Product_Name"]
-                fin_order[prod_id]["Product_Price"] = entry["Product_Price"]
                 fin_order[prod_id]["Product_Quantity"] = int(input(f"\nEnter quantity (less than or equal "
                                                                    f"to {prod_qty}) you wish to purchase:"))
-                fin_order[prod_id]["Sub-Total"] = fin_order[prod_id]["Product_Price"] * fin_order[
-                    prod_id]["Product_Quantity"]
+                fin_order[prod_id]["Product_Price"] = entry["Product_Price"]
+                price_tint = float(fin_order[prod_id]["Product_Price"])
+                subtt = price_tint * fin_order[prod_id]["Product_Quantity"]
+                fin_order[prod_id]["Sub-Total"] = '{:.2f}'.format(subtt)
                 # insert/adds contents of selected_prod inside cart_temp
                 cart_temp.append(fin_order)
-                # prod_list.append(opt)
                 i = i + 1
 
             else:
@@ -112,6 +114,7 @@ def process_order():
             # [cart_list] = cart_temp
             # result = cart_list.strip("[]{}")
 
+        # ERROR HANDLING EXPECTED
         opt = int(input(f"Enter Product ID(1 - {data_length}) of item you wish to add to cart:"))
         i = 1
         for entry in prod_temp:
@@ -122,11 +125,12 @@ def process_order():
                 prod_qty = entry["Product_Quantity"]
                 fin_order[prod_id]["Product_id"] = opt
                 fin_order[prod_id]["Product_Name"] = entry["Product_Name"]
-                fin_order[prod_id]["Product_Price"] = entry["Product_Price"]
                 fin_order[prod_id]["Product_Quantity"] = int(input(f"\nEnter quantity (less than or equal "
                                                                    f"to {prod_qty}) you wish to purchase:"))
-                fin_order[prod_id]["Sub-Total"] = fin_order[prod_id]["Product_Price"] * fin_order[
-                    prod_id]["Product_Quantity"]
+                fin_order[prod_id]["Product_Price"] = entry["Product_Price"]
+                price_tint = float(fin_order[prod_id]["Product_Price"])
+                subtt = price_tint * fin_order[prod_id]["Product_Quantity"]
+                fin_order[prod_id]["Sub-Total"] = '{:.2f}'.format(subtt)
                 # Append - insert/adds contents of fin_order inside open_cart_temp
                 # removes the list/ leaves the dictionary inside for update/
                 # Update adds something extra in an already existing dictionary
@@ -159,8 +163,9 @@ def process_order():
                 if i == "Customer Name":
                     continue
                 else:
-                    total += opened_checkout_temp[i]["Sub-Total"]
-            emp_prd[new_id] = total
+                    subt_tint = float(opened_checkout_temp[i]["Sub-Total"])
+                    total += subt_tint
+            emp_prd[new_id] = "{:.2f}".format(total)
             opened_checkout_temp.update(emp_prd)
 
             with open("Order/cart.json", "w") as json_file:
@@ -179,12 +184,12 @@ def process_order():
         if i == "Customer Name":
             print(f"\nCustomer Name: {strip_fin_temp[i]}")
         elif i == "Total":
-            print(f"\nTotal is Ksh: {strip_fin_temp[i]}")
+            print(f"\nTotal: Ksh. {strip_fin_temp[i]}")
         else:
             print(f"\nProduct Name: {strip_fin_temp[i]['Product_Name']}")
-            print(f"Product Price: {strip_fin_temp[i]['Product_Price']}")
             print(f"Product Quantity: {strip_fin_temp[i]['Product_Quantity']}")
-            print(f"Sub-Total: {strip_fin_temp[i]['Sub-Total']}")
+            print(f"Product Price: Ksh. {strip_fin_temp[i]['Product_Price']}")
+            print(f"Sub-Total: Ksh. {strip_fin_temp[i]['Sub-Total']}")
 
     print("\n----------------------------------------------")
     print("-------Thank you for Shopping with us---------")
@@ -209,12 +214,12 @@ def process_order():
             for entry in prod_temp:
                 if j == p_id_list:
                     prod_name = entry["Product_Name"]
-                    prod_price = entry["Product_Price"]
                     prod_qty = entry["Product_Quantity"]
+                    prod_price = entry["Product_Price"]
                     prod_qty = prod_qty - p_qty_list
                     up_qty_list.append({"Product_Name": prod_name,
-                                        "Product_Price": prod_price,
-                                        "Product_Quantity": prod_qty})
+                                        "Product_Quantity": prod_qty,
+                                        "Product_Price": prod_price})
                     j = j + 1
                 else:
                     up_qty_list.append(entry)
@@ -245,7 +250,7 @@ def process_order():
     with open("Order/cart.json", "w") as json_file:
         json.dump(cart, json_file, indent=4)
 
-    exit()
+    p_order()
 
 
 def create_prod_id():
@@ -287,7 +292,7 @@ def completed_orders():
         o_temp = json.load(json_file)
     [strip_o_temp] = o_temp
 
-    print("\n------- Processed Orders ---------\n")
+    print("\n------------------------------- Processed Orders -----------------------------------\n")
 
     for i in strip_o_temp:
         print(f"Order: {i}")
@@ -295,14 +300,14 @@ def completed_orders():
             if j == "Customer Name":
                 print(f"Customer Name: {strip_o_temp[i]['Customer Name']}")
             elif j == "Total":
-                print(f"Total is Ksh:  {strip_o_temp[i]['Total']}\n")
+                print(f"Total: Ksh. {strip_o_temp[i]['Total']}\n")
             else:
                 p_name = strip_o_temp[i][j]['Product_Name']
                 p_price = strip_o_temp[i][j]['Product_Price']
                 p_qty = strip_o_temp[i][j]['Product_Quantity']
-                sub = strip_o_temp[i][j]['Sub-Total']
                 print(f"Product Name: {p_name}, Product Price: {p_price}, "
-                      f"Product Quantity: {p_qty}, Sub-Total: {sub}")
+                      f"Product Quantity: {p_qty}, Sub-Total: Ksh. {strip_o_temp[i][j]['Sub-Total']}")
+    print("-----------------------------------------------------------------------------------------")
     exit()
 
 # p_order()
