@@ -10,9 +10,10 @@ def product_info():
 
         1) Add Product
         2) List Products
-        3) Update Product
-        4) Delete Product
-        5) Back to Main Menu
+        3) Search Product
+        4) Update Product
+        5) Delete Product
+        6) Back to Main Menu
 
         ----------------------------------------------
         """)
@@ -28,13 +29,17 @@ def product_info():
 
         elif choice == "3":
 
-            update_product()
+            search_prod()
 
         elif choice == "4":
 
-            delete_product()
+            update_product()
 
         elif choice == "5":
+
+            delete_product()
+
+        elif choice == "6":
             from main import main_menu
 
             main_menu()
@@ -171,6 +176,31 @@ def update_product():
     with open("Product/prod.json", "w") as json_file:
         json.dump(updated_prod_list, json_file, indent=4)
         print("\nProduct updated successfully!")
+
+
+# search for a product by name
+def search_prod():
+    while True:
+        prod_name = input("\nEnter name of product to search:")
+        check = confirm_prod(prod_name)
+        if check == 'y':
+            break
+        else:
+            print("\nProduct does not exist. Please input an existing Product name")
+
+
+def confirm_prod(prodcon_name):
+    with open("Product/prod.json", "r") as json_file:
+        c_prod_temp = json.load(json_file)
+    for entry in c_prod_temp:
+        if prodcon_name in entry['Product_Name']:
+            print(f"Product Name: {entry['Product_Name']}")
+            print(f"Product Quantity: {entry['Product_Quantity']}")
+            print(f"Product Price: {entry['Product_Price']}")
+            return 'y'
+        else:
+            continue
+    return
 
 
 # product_info()

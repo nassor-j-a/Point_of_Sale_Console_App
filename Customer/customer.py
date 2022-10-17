@@ -11,9 +11,10 @@ def customer_info():
 
         1) Add Customer
         2) List Customers
-        3) Update Customer
-        4) Delete Customer
-        5) Back to Main Menu
+        3) Search Customer
+        4) Update Customer
+        5) Delete Customer
+        6) Back to Main Menu
 
         ----------------------------------------------
         """)
@@ -29,13 +30,17 @@ def customer_info():
 
         elif choice == "3":
 
-            update_customer()
+            cus_search()
 
         elif choice == "4":
 
-            delete_customer()
+            update_customer()
 
         elif choice == "5":
+
+            delete_customer()
+
+        elif choice == "6":
             from main import main_menu
 
             main_menu()
@@ -184,6 +189,81 @@ def update_customer():
     with open("Customer/cus.json", "w") as json_file:
         json.dump(updated_cus_list, json_file, indent=4)
         print("\nCustomer updated successfully!")
+
+
+def cus_search():
+    while True:
+        print("""
+             ----------------------------------------------
+             Customer Search Sub-Menu:-
+
+             1) Search by Name
+             2) Search by Phone Number
+             3) Back to Customer Sub-Menu
+
+             ----------------------------------------------
+                 """)
+        c_choice = input('Enter a Menu option to continue:')
+        if c_choice == "1":
+            search_cusname()
+        elif c_choice == "2":
+            search_cuspnum()
+        elif c_choice == "3":
+            customer_info()
+        else:
+            print('INVALID MENU OPTION! Enter 1-3')
+
+
+# search for customer by name
+def search_cusname():
+    while True:
+        cus_name = input("\nEnter name of customer to search:")
+        check = confirm_cusname(cus_name)
+        if check == 'y':
+            break
+        else:
+            print("\nCustomer not found! Please input an existing Customer name")
+
+
+def confirm_cusname(cuscon_name):
+    with open("Customer/cus.json", "r") as json_file:
+        c_cus_temp = json.load(json_file)
+    for entry in c_cus_temp:
+        if cuscon_name in entry['Customer_Name']:
+            print(f"Product Name: {entry['Customer_Name']}")
+            print(f"Product Price: {entry['Gender']}")
+            print(f"Product Quantity: {entry['Phone_Number']}")
+            return 'y'
+        else:
+            continue
+    return
+
+
+# search for customer by phone number
+def search_cuspnum():
+    while True:
+        cus_phone = input("\nEnter customer's Phone Number to search:")
+        check = confirm_cuspnum(cus_phone)
+        if check == 'y':
+            break
+        else:
+            print("\nCustomer not found! Please input an existing Customer's Phone Number")
+
+
+def confirm_cuspnum(cus_conphone):
+    with open("Customer/cus.json", "r") as json_file:
+        c_cus_temp = json.load(json_file)
+    for entry in c_cus_temp:
+        phon = entry['Phone_Number']
+        phon = str(phon)
+        if cus_conphone in phon:
+            print(f"Product Name: {entry['Customer_Name']}")
+            print(f"Product Price: {entry['Gender']}")
+            print(f"Product Quantity: {entry['Phone_Number']}")
+            return 'y'
+        else:
+            continue
+    return
 
 
 # customer_info()
