@@ -1,3 +1,6 @@
+from email.message import EmailMessage
+import ssl
+import smtplib
 import json
 prod_file = "Product/prod.json"
 cus_file = "Customer/cus.json"
@@ -46,7 +49,7 @@ def process_order():
             data_lent = len(cus_temp)
             while True:
                 try:
-                    cust_id = int(input(f"\nEnter Customer ID(1-{data_lent}) of the buyer:"))
+                    cust_id = int(input(f"\nEnter Customer ID(1-{data_lent}) of the buyer:\n"))
                 except ValueError:
                     print(f"\nINVALID INPUT! Selection can't be an Alphabet")
                     continue
@@ -60,6 +63,7 @@ def process_order():
             for entry in cus_temp:
                 if i == int(cust_id):
                     fin_order["Customer Name"] = entry["Customer_Name"]
+                    fin_order["Email"] = entry["Email"]
                     order_temp.append(fin_order)
                     i = i + 1
                 else:
@@ -75,7 +79,7 @@ def process_order():
         with open("Order/cart.json", "r") as json_file:
             cart_temp = json.load(json_file)
         # ERROR HANDLING EXPECTED
-        opt = int(input(f"Enter Product ID(1 - {data_length}) of item you wish to add to cart:"))
+        opt = int(input(f"\nEnter Product ID(1 - {data_length}) of item you wish to add to cart:"))
         i = 1
         for entry in prod_temp:
 
@@ -115,7 +119,7 @@ def process_order():
             # result = cart_list.strip("[]{}")
 
         # ERROR HANDLING EXPECTED
-        opt = int(input(f"Enter Product ID(1 - {data_length}) of item you wish to add to cart:"))
+        opt = int(input(f"\nEnter Product ID(1 - {data_length}) of item you wish to add to cart:"))
         i = 1
         for entry in prod_temp:
 
@@ -162,6 +166,8 @@ def process_order():
             for i in opened_checkout_temp:
                 if i == "Customer Name":
                     continue
+                elif i == "Email":
+                    continue
                 else:
                     subt_tint = float(opened_checkout_temp[i]["Sub-Total"])
                     total += subt_tint
@@ -183,6 +189,8 @@ def process_order():
     for i in strip_fin_temp:
         if i == "Customer Name":
             print(f"\nCustomer Name: {strip_fin_temp[i]}")
+        elif i == "Email":
+            pass
         elif i == "Total":
             print(f"\nTotal: Ksh. {strip_fin_temp[i]}")
         else:
@@ -195,12 +203,15 @@ def process_order():
     print("-------Thank you for Shopping with us---------")
     print("----------------------------------------------")
 
+    send_mail()
     # product quantity decrement
     with open("Order/cart.json", "r") as json_file:
         pid_temp = json.load(json_file)
     [open_pid] = pid_temp
     for i in open_pid:
         if i == "Customer Name":
+            continue
+        elif i == "Email":
             continue
         elif i == "Total":
             continue
@@ -246,6 +257,7 @@ def process_order():
     with open("Order/order.json", "w") as json_file:
         json.dump(o_temp, json_file, indent=4)
         print("\nOrder record captured!")
+    # emptying the cart
     cart = []
     with open("Order/cart.json", "w") as json_file:
         json.dump(cart, json_file, indent=4)
@@ -299,6 +311,8 @@ def completed_orders():
         for j in strip_o_temp[i]:
             if j == "Customer Name":
                 print(f"Customer Name: {strip_o_temp[i]['Customer Name']}")
+            elif j == "Email":
+                pass
             elif j == "Total":
                 print(f"Total: Ksh. {strip_o_temp[i]['Total']}\n")
             else:
@@ -307,7 +321,55 @@ def completed_orders():
                 p_qty = strip_o_temp[i][j]['Product_Quantity']
                 print(f"Product Name: {p_name}, Product Price: {p_price}, "
                       f"Product Quantity: {p_qty}, Sub-Total: Ksh. {strip_o_temp[i][j]['Sub-Total']}")
+
     print("-----------------------------------------------------------------------------------------")
-    exit()
+
+
+def send_mail():
+
+    with open("Order/cart.json", "r") as json_file:
+        fin_temp = json.load(json_file)
+    [strip_fin_temp] = fin_temp
+
+    email_sender = 'allprojects53@gmail.com'
+    email_pass = 'nqtytjavpktcqzin'
+    email_receiver = ''
+
+    subject = "PURCHASE RECEIPT"
+
+    body = "\n----------------------------------------------"
+    body += "-------------------RECEIPT--------------------"
+    body += "----------------------------------------------"
+    body += "\n"
+
+    for i in strip_fin_temp:
+        if i == "Customer Name":
+            body += f"\nCustomer Name: {strip_fin_temp[i]}"
+        elif i == "Total":
+            body += f"\nTotal: Ksh. {strip_fin_temp[i]}"
+        elif i == "Email":
+            email_receiver = {strip_fin_temp[i]}
+        else:
+            body += f"\nProduct Name: {strip_fin_temp[i]['Product_Name']}"
+            body += f"\nProduct Quantity: {strip_fin_temp[i]['Product_Quantity']}"
+            body += f"\nProduct Price: Ksh. {strip_fin_temp[i]['Product_Price']}"
+            body += f"\nSub-Total: Ksh. {strip_fin_temp[i]['Sub-Total']}"
+            body += "\n"
+    body += "\n----------------------------------------------"
+    body += "-------Thank you for Shopping with us---------"
+    body += "----------------------------------------------"
+
+    em = EmailMessage()
+    em['From'] = email_sender
+    em['To'] = email_receiver
+    em['subject'] = subject
+    em.set_content(body)
+
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+        smtp.login(email_sender, email_pass)
+        smtp.sendmail(email_sender, email_receiver, em.as_string())
+
 
 # p_order()
