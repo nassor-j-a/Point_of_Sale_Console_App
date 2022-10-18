@@ -1,42 +1,14 @@
 [
     {
-        "Customer_Name": "Mildred Kingston",
-        "Gender": "Female",
-        "Phone_Number": 234
-    },
-    {
         "Customer_Name": "Mercy Tonui",
         "Gender": "Female",
-        "Phone_Number": 345
+        "Email": "jamalnasor@gmail.com",
+        "Phone_Number": "0110675592"
     },
     {
-        "Customer_Name": "Brian Otieno",
+        "Customer_Name": "Salim Ruta",
         "Gender": "Male",
-        "Phone_Number": 567
-    },
-    {
-        "Customer_Name": "Christine Wabosha",
-        "Gender": "Female",
-        "Phone_Number": 911
-    },
-    {
-        "Customer_Name": "Haifa Mbarak",
-        "Gender": "Female",
-        "Phone_Number": 667
-    },
-    {
-        "Customer_Name": "Muthoni Jane",
-        "Gender": "Female",
-        "Phone_Number": 889
-    },
-    {
-        "Customer_Name": "Kamotho Mbuthia",
-        "Gender": "Male",
-        "Phone_Number": 567
-    },
-    {
-        "Customer_Name": "Johnson Gadaffi",
-        "Gender": "Male",
-        "Phone_Number": 890
+        "Email": "jamalnassor1407@gmail.com",
+        "Phone_Number": "0713623399"
     }
 ]
