@@ -6,12 +6,10 @@ def main_menu():
         -----------------GROCERY SHOP-----------------
         ----------------------------------------------
         Menu:-
-
-        1) Purchase
-        2) Product
-        3) Customer
-        4) Search
-        5) Exit
+            1) Purchase
+            2) Product
+            3) Customer
+            4) Exit
         ----------------------------------------------
         """)
 
@@ -42,14 +40,6 @@ def main_menu():
             break
 
         elif choice == "4":
-
-            from Search.search import search_here
-
-            search_here()
-
-            break
-
-        elif choice == "5":
 
             exit()
 
