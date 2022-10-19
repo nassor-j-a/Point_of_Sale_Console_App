@@ -78,8 +78,19 @@ def process_order():
 
         with open("Order/cart.json", "r") as json_file:
             cart_temp = json.load(json_file)
-        # ERROR HANDLING EXPECTED
-        opt = int(input(f"\nEnter Product ID(1 - {data_length}) of item you wish to add to cart:"))
+        opt = ''
+
+        while True:
+            try:
+                opt = int(input(f"\nEnter Product ID(1 - {data_length}) of item you wish to add to cart:"))
+            except ValueError:
+                print(f"\nINVALID INPUT! Product ID can't be an Alphabet")
+                continue
+            if opt > data_length:
+                print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
+                continue
+            else:
+                break
         i = 1
         for entry in prod_temp:
 
@@ -89,8 +100,21 @@ def process_order():
                 prod_qty = entry["Product_Quantity"]
                 fin_order[prod_id]["Product_id"] = opt
                 fin_order[prod_id]["Product_Name"] = entry["Product_Name"]
-                fin_order[prod_id]["Product_Quantity"] = int(input(f"\nEnter quantity (less than or equal "
-                                                                   f"to {prod_qty}) you wish to purchase:"))
+                while True:
+                    try:
+                        qty = int(input(f"\nEnter quantity (less than or equal to {prod_qty}) you wish to purchase:"))
+                    except ValueError:
+                        print("\nINVALID INPUT! Quantity can't be an alphabet!")
+                        continue
+                    if qty > prod_qty:
+                        print(f"\nINVALID INPUT! Quantity can't be greater than {prod_qty}!")
+                        continue
+                    elif qty < 1:
+                        print("\nINVALID INPUT! Quantity can't be less than 1!")
+                    else:
+                        fin_order[prod_id]["Product_Quantity"] = qty
+                        break
+
                 fin_order[prod_id]["Product_Price"] = entry["Product_Price"]
                 price_tint = float(fin_order[prod_id]["Product_Price"])
                 subtt = price_tint * fin_order[prod_id]["Product_Quantity"]
@@ -118,8 +142,25 @@ def process_order():
             # [cart_list] = cart_temp
             # result = cart_list.strip("[]{}")
 
-        # ERROR HANDLING EXPECTED
-        opt = int(input(f"\nEnter Product ID(1 - {data_length}) of item you wish to add to cart:"))
+        opt = ''
+
+        while True:
+            try:
+                opt = int(input(f"\nEnter Product ID(1 - {data_length}) of item you wish to add to cart:"))
+            except ValueError:
+                print(f"\nINVALID INPUT! Product ID can't be an Alphabet")
+                continue
+            if opt > data_length:
+                print(f"\nINVALID INPUT! Enter a value between 1 and {data_length}")
+                continue
+            else:
+                validate_prod = check_prod(opt)
+                if validate_prod == 'y':
+                    print('\nProduct already Exist in cart!')
+                    continue
+                else:
+                    break
+
         i = 1
         for entry in prod_temp:
 
@@ -129,8 +170,20 @@ def process_order():
                 prod_qty = entry["Product_Quantity"]
                 fin_order[prod_id]["Product_id"] = opt
                 fin_order[prod_id]["Product_Name"] = entry["Product_Name"]
-                fin_order[prod_id]["Product_Quantity"] = int(input(f"\nEnter quantity (less than or equal "
-                                                                   f"to {prod_qty}) you wish to purchase:"))
+                while True:
+                    try:
+                        qty = int(input(f"\nEnter quantity (less than or equal to {prod_qty}) you wish to purchase:"))
+                    except ValueError:
+                        print("\nINVALID INPUT! Quantity can't be an alphabet!")
+                        continue
+                    if qty > prod_qty:
+                        print(f"\nINVALID INPUT! Quantity can't be greater than {prod_qty}!")
+                        continue
+                    elif qty < 1:
+                        print("\nINVALID INPUT! Quantity can't be less than 1!")
+                    else:
+                        fin_order[prod_id]["Product_Quantity"] = qty
+                        break
                 fin_order[prod_id]["Product_Price"] = entry["Product_Price"]
                 price_tint = float(fin_order[prod_id]["Product_Price"])
                 subtt = price_tint * fin_order[prod_id]["Product_Quantity"]
@@ -183,6 +236,7 @@ def process_order():
         fin_temp = json.load(json_file)
     [strip_fin_temp] = fin_temp
 
+    # print('-' * 55)
     print("\n----------------------------------------------")
     print("-------------------RECEIPT--------------------")
     print("----------------------------------------------")
@@ -325,13 +379,31 @@ def completed_orders():
     print("-----------------------------------------------------------------------------------------")
 
 
+# checking if product exist in cart
+def check_prod(option):
+    with open("Order/cart.json", "r") as json_file:
+        cart_temp = json.load(json_file)
+        [cart_list] = cart_temp
+    for i in cart_list:
+        if i == "Customer Name":
+            continue
+        elif i == "Email":
+            continue
+        else:
+            if cart_list[i]['Product_id'] == option:
+                return 'y'
+            else:
+                continue
+    return 'n'
+
+
 def send_mail():
 
     with open("Order/cart.json", "r") as json_file:
         fin_temp = json.load(json_file)
     [strip_fin_temp] = fin_temp
 
-    email_sender = ''
+    email_sender = 'allprojects53@gmail.com'
     email_pass = ''
     email_receiver = ''
 
@@ -350,9 +422,9 @@ def send_mail():
         elif i == "Email":
             email_receiver = {strip_fin_temp[i]}
         else:
-            body += f"\nProduct Name: {strip_fin_temp[i]['Product_Name']}"
-            body += f"\nProduct Quantity: {strip_fin_temp[i]['Product_Quantity']}"
-            body += f"\nProduct Price: Ksh. {strip_fin_temp[i]['Product_Price']}"
+            body += f"\nProduct Name: {strip_fin_temp[i]['Product_Name']} "
+            body += f"Product Quantity: {strip_fin_temp[i]['Product_Quantity']} "
+            body += f"Product Price: Ksh. {strip_fin_temp[i]['Product_Price']}"
             body += f"\nSub-Total: Ksh. {strip_fin_temp[i]['Sub-Total']}"
             body += "\n"
     body += "\n----------------------------------------------"
