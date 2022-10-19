@@ -91,6 +91,15 @@ def add_customer():
         else:
             print("\nINVALID PHONE NUMBER FORMAT! Enter values (0-9) and 10 digits long!")
             continue
+    while True:
+        add_ver = input("\nDo you really want to add customer? y/n: ")
+        if add_ver == 'y':
+            break
+        elif add_ver == 'n':
+            customer_info()
+        else:
+            print("\nINVALID INPUT! Enter y/n")
+            continue
 
     temp.append(cus_data)
     with open("Customer/cus.json", "w") as json_file:
@@ -130,6 +139,15 @@ def delete_customer():
             else:
                 break
 
+        while True:
+            del_ver = input("\nDo you really want to delete the customer? y/n: ")
+            if del_ver == 'y':
+                break
+            elif del_ver == 'n':
+                customer_info()
+            else:
+                print("\nINVALID INPUT! Enter y/n")
+                continue
         i = 1
         for entry in temp:
             if i == int(delete_opt):
@@ -207,12 +225,22 @@ def update_customer():
                     else:
                         print("\nINVALID PHONE NUMBER FORMAT! Enter values (0-9) and 10 digits long!")
                         continue
+                while True:
+                    upd_ver = input("\nDo you really want to update the customer details? y/n: ")
+                    if upd_ver == 'y':
+                        break
+                    elif upd_ver == 'n':
+                        customer_info()
+                    else:
+                        print("\nINVALID INPUT! Enter y/n")
+                        continue
                 updated_cus_list.append({"Customer_Name": cus_name, "Gender": gender, "Email": mail,
                                          "Phone_Number": tel})
                 i = i + 1
             else:
                 updated_cus_list.append(entry)
                 i = i + 1
+
     with open("Customer/cus.json", "w") as json_file:
         json.dump(updated_cus_list, json_file, indent=4)
         print("\nCustomer updated successfully!")

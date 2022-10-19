@@ -331,8 +331,8 @@ def send_mail():
         fin_temp = json.load(json_file)
     [strip_fin_temp] = fin_temp
 
-    email_sender = 'allprojects53@gmail.com'
-    email_pass = 'nqtytjavpktcqzin'
+    email_sender = ''
+    email_pass = ''
     email_receiver = ''
 
     subject = "PURCHASE RECEIPT"

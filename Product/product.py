@@ -1,4 +1,6 @@
 import json
+from rich.console import Console
+from rich.table import Table
 
 
 def product_info():
@@ -71,6 +73,15 @@ def add_product():
             continue
         prod_data["Product_Price"] = '{:.2f}'.format(p_price)
         break
+    while True:
+        add_ver = input("\nDo you really want to add customer? y/n: ")
+        if add_ver == 'y':
+            break
+        elif add_ver == 'n':
+            product_info()
+        else:
+            print("\nINVALID INPUT! Enter y/n")
+            continue
     temp.append(prod_data)
     with open("Product/prod.json", "w") as json_file:
         json.dump(temp, json_file, indent=4)
@@ -107,6 +118,15 @@ def delete_product():
                 continue
             else:
                 break
+        while True:
+            upd_ver = input("\nDo you really want to delete the product? y/n: ")
+            if upd_ver == 'y':
+                break
+            elif upd_ver == 'n':
+                product_info()
+            else:
+                print("\nINVALID INPUT! Enter y/n")
+                continue
 
         i = 1
         for entry in temp:
@@ -164,6 +184,15 @@ def update_product():
                         continue
                     prod_price = '{:.2f}'.format(updtprod_price)
                     break
+                while True:
+                    upd_ver = input("\nDo you really want to update the product details? y/n: ")
+                    if upd_ver == 'y':
+                        break
+                    elif upd_ver == 'n':
+                        product_info()
+                    else:
+                        print("\nINVALID INPUT! Enter y/n")
+                        continue
                 updated_prod_list.append({"Product_Name": prod_name,
                                           "Product_Quantity": prod_qty,
                                           "Product_Price": prod_price})
