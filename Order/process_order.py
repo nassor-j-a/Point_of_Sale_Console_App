@@ -13,7 +13,7 @@ def p_order():
         Purchase Sub-Menu:-
 
         1) Purchase products
-        2) List purchases
+        2) Purchase history
         3) Back to Main Menu
 
         ----------------------------------------------
@@ -26,7 +26,7 @@ def p_order():
 
         elif choice == "2":
 
-            completed_orders()
+            purchase_history()
 
         elif choice == "3":
             from main import main_menu
@@ -139,8 +139,6 @@ def process_order():
 
         with open("Order/cart.json", "r") as json_file:
             cart_temp = json.load(json_file)
-            # [cart_list] = cart_temp
-            # result = cart_list.strip("[]{}")
 
         opt = ''
 
@@ -214,7 +212,6 @@ def process_order():
                 checkout_temp = json.load(json_file)
             emp_prd = {}
             [opened_checkout_temp] = checkout_temp
-            new_id = "Total"
             total = 0
             for i in opened_checkout_temp:
                 if i == "Customer Name":
@@ -224,22 +221,54 @@ def process_order():
                 else:
                     subt_tint = float(opened_checkout_temp[i]["Sub-Total"])
                     total += subt_tint
-            emp_prd[new_id] = "{:.2f}".format(total)
+            emp_prd["Total"] = "{:.2f}".format(total)
             opened_checkout_temp.update(emp_prd)
 
             with open("Order/cart.json", "w") as json_file:
                 json.dump(checkout_temp, json_file, indent=4)
         break
+    # final checkout procedure
+    with open("Order/cart.json", "r") as json_file:
+        check_temp = json.load(json_file)
+    [strip_check_temp] = check_temp
+    print("\nYour shopping is:")
+    for i in strip_check_temp:
+        if i == "Customer Name":
+            continue
+        elif i == "Email":
+            continue
+        elif i == "Total":
+            print(f"\nTotal: Ksh. {strip_check_temp[i]}")
+        else:
+            print(f"\nProduct Name: {strip_check_temp[i]['Product_Name']}")
+            print(f"Product Quantity: {strip_check_temp[i]['Product_Quantity']}")
+            print(f"Product Price: Ksh. {strip_check_temp[i]['Product_Price']}")
+            print(f"Sub-Total: Ksh. {strip_check_temp[i]['Sub-Total']}")
+    while True:
+        checkout_prompt = input("\nDo you wish to proceed with payment? y/n: ")
+        if checkout_prompt == 'y':
+            amt_tendered()
+        elif checkout_prompt == 'n':
+            cart = []
+            with open("Order/cart.json", "w") as json_file:
+                json.dump(cart, json_file, indent=4)
+            p_order()
+        else:
+            print("\nINVALID INPUT! Enter 'y' or 'n'!")
+            continue
+        break
+    change_calculation()
 
     # printing a receipt
     with open("Order/cart.json", "r") as json_file:
         fin_temp = json.load(json_file)
     [strip_fin_temp] = fin_temp
+    forma_t = '-' * 46
 
-    # print('-' * 55)
-    print("\n----------------------------------------------")
+    print(f"\n{forma_t}")
     print("-------------------RECEIPT--------------------")
-    print("----------------------------------------------")
+    print(forma_t)
+
     for i in strip_fin_temp:
         if i == "Customer Name":
             print(f"\nCustomer Name: {strip_fin_temp[i]}")
@@ -247,15 +276,19 @@ def process_order():
             pass
         elif i == "Total":
             print(f"\nTotal: Ksh. {strip_fin_temp[i]}")
+        elif i == "Amount Tendered":
+            print(f"Amount Tendered: Ksh. {strip_fin_temp[i]}")
+        elif i == "Change":
+            print(f"Change: Ksh. {strip_fin_temp[i]}")
         else:
             print(f"\nProduct Name: {strip_fin_temp[i]['Product_Name']}")
             print(f"Product Quantity: {strip_fin_temp[i]['Product_Quantity']}")
             print(f"Product Price: Ksh. {strip_fin_temp[i]['Product_Price']}")
             print(f"Sub-Total: Ksh. {strip_fin_temp[i]['Sub-Total']}")
 
-    print("\n----------------------------------------------")
-    print("-------Thank you for Shopping with us---------")
-    print("----------------------------------------------")
+    print(f"\n{forma_t}")
+    print("--------Thank you for Shopping with us--------")
+    print(f"\n{forma_t}")
 
     send_mail()
     # product quantity decrement
@@ -268,6 +301,10 @@ def process_order():
         elif i == "Email":
             continue
         elif i == "Total":
+            continue
+        elif i == "Amount Tendered":
+            continue
+        elif i == "Change":
             continue
         else:
             p_id_list = open_pid[i]["Product_id"]
@@ -352,13 +389,38 @@ def create_pur_id():
         return new_id
 
 
+def purchase_history():
+    while True:
+        print("""
+             ----------------------------------------------
+             Customer Search Sub-Menu:-
+
+             1) General purchase history
+             2) Individual customer purchase history
+             3) Back to Purchase Sub-Menu
+
+             ----------------------------------------------
+                 """)
+        c_choice = input('Enter a Menu option to continue:')
+        if c_choice == "1":
+            completed_orders()
+        elif c_choice == "2":
+            individual_cust()
+        elif c_choice == "3":
+            p_order()
+        else:
+            print('INVALID MENU OPTION! Enter 1-3')
+
+
 # Generating a purchase list
 def completed_orders():
     with open("Order/order.json", "r") as json_file:
         o_temp = json.load(json_file)
     [strip_o_temp] = o_temp
+    format_i = '-' * 89
+    format_ii = '-' * 33
 
-    print("\n------------------------------- Processed Orders -----------------------------------\n")
+    print(f"\n{format_ii} {'Processed Orders'} {format_ii}\n")
 
     for i in strip_o_temp:
         print(f"Order: {i}")
@@ -368,7 +430,11 @@ def completed_orders():
             elif j == "Email":
                 pass
             elif j == "Total":
-                print(f"Total: Ksh. {strip_o_temp[i]['Total']}\n")
+                print(f"\nTotal: Ksh. {strip_o_temp[i]['Total']}")
+            elif j == "Amount Tendered":
+                print(f"Amount Tendered: Ksh. {strip_o_temp[i]['Amount Tendered']}")
+            elif j == "Change":
+                print(f"Change: Ksh. {strip_o_temp[i]['Change']}\n")
             else:
                 p_name = strip_o_temp[i][j]['Product_Name']
                 p_price = strip_o_temp[i][j]['Product_Price']
@@ -376,7 +442,35 @@ def completed_orders():
                 print(f"Product Name: {p_name}, Product Price: {p_price}, "
                       f"Product Quantity: {p_qty}, Sub-Total: Ksh. {strip_o_temp[i][j]['Sub-Total']}")
 
-    print("-----------------------------------------------------------------------------------------")
+    print(f"{format_i}")
+
+
+def individual_cust():
+    with open("Order/order.json", "r") as json_file:
+        o_temp = json.load(json_file)
+    [strip_o_temp] = o_temp
+    customer_name = input("Enter full name of customer to view their purchase history:")
+    for i in strip_o_temp:
+        if strip_o_temp[i]['Customer Name'] == customer_name:
+            for j in strip_o_temp[i]:
+                if j == "Customer Name":
+                    print(f"\nCustomer Name: {strip_o_temp[i]['Customer Name']}")
+                elif j == "Email":
+                    pass
+                elif j == "Total":
+                    print(f"\nTotal: Ksh. {strip_o_temp[i]['Total']}")
+                elif j == "Amount Tendered":
+                    print(f"Amount Tendered: Ksh. {strip_o_temp[i]['Amount Tendered']}")
+                elif j == "Change":
+                    print(f"Change: Ksh. {strip_o_temp[i]['Change']}\n")
+                else:
+                    p_name = strip_o_temp[i][j]['Product_Name']
+                    p_price = strip_o_temp[i][j]['Product_Price']
+                    p_qty = strip_o_temp[i][j]['Product_Quantity']
+                    print(f"Product Name: {p_name}, Product Price: {p_price}, "
+                          f"Product Quantity: {p_qty}, Sub-Total: Ksh. {strip_o_temp[i][j]['Sub-Total']}")
+        else:
+            continue
 
 
 # checking if product exist in cart
@@ -395,6 +489,43 @@ def check_prod(option):
             else:
                 continue
     return 'n'
+
+
+# amount tendered validation
+def amt_tendered():
+    with open("Order/cart.json", "r") as json_file:
+        check_temp = json.load(json_file)
+    [strip_check_temp] = check_temp
+    chkt = {}
+    tot = float(strip_check_temp["Total"])
+    while True:
+        try:
+            amount_paid = int(input("Enter amount paid:"))
+        except ValueError:
+            print("\nINVALID INPUT! Amount paid can't be an Alphabet")
+            continue
+        if amount_paid < tot:
+            print("\nAmount tendered can't be less than 'Total' amount!")
+            continue
+        chkt["Amount Tendered"] = "{:.2f}".format(amount_paid)
+        break
+    strip_check_temp.update(chkt)
+    with open("Order/cart.json", "w") as json_file:
+        json.dump(check_temp, json_file, indent=4)
+
+
+def change_calculation():
+    with open("Order/cart.json", "r") as json_file:
+        checkit_temp = json.load(json_file)
+    [strip_checkit_temp] = checkit_temp
+    chkt_it = {}
+    converted_amt = float(strip_checkit_temp["Amount Tendered"])
+    converted_tot = float(strip_checkit_temp["Total"])
+    change = float(converted_amt - converted_tot)
+    chkt_it["Change"] = "{:.2f}".format(change)
+    strip_checkit_temp.update(chkt_it)
+    with open("Order/cart.json", "w") as json_file:
+        json.dump(checkit_temp, json_file, indent=4)
 
 
 def send_mail():
@@ -421,6 +552,10 @@ def send_mail():
             body += f"\nTotal: Ksh. {strip_fin_temp[i]}"
         elif i == "Email":
             email_receiver = {strip_fin_temp[i]}
+        elif i == "Amount Tendered":
+            body += f"\nAmount Tendered: Ksh. {strip_fin_temp[i]}"
+        elif i == "Change":
+            body += f"\nChange: Ksh. {strip_fin_temp[i]}"
         else:
             body += f"\nProduct Name: {strip_fin_temp[i]['Product_Name']} "
             body += f"Product Quantity: {strip_fin_temp[i]['Product_Quantity']} "

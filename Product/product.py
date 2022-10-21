@@ -1,6 +1,6 @@
 import json
-from rich.console import Console
-from rich.table import Table
+# from rich.console import Console
+# from rich.table import Table
 
 
 def product_info():
@@ -55,8 +55,15 @@ def add_product():
 
     with open("Product/prod.json", "r") as json_file:
         temp = json.load(json_file)
-
-    prod_data["Product_Name"] = input("\nEnter product's name: ")
+    while True:
+        enter_name = input("\nEnter product's name: ")
+        validate_pname = checky_name(enter_name)
+        if validate_pname == 'y':
+            prod_data["Product_Name"] = enter_name
+            break
+        else:
+            print("\nProduct name already exist!")
+            continue
 
     while True:
         try:
@@ -69,12 +76,12 @@ def add_product():
         try:
             p_price = int(input("\nEnter price: "))
         except ValueError:
-            print(f"\nINVALID INPUT! Product price can't be an Alphabet")
+            print("\nINVALID INPUT! Product price can't be an Alphabet")
             continue
         prod_data["Product_Price"] = '{:.2f}'.format(p_price)
         break
     while True:
-        add_ver = input("\nDo you really want to add customer? y/n: ")
+        add_ver = input("\nProceed to add customer? y/n: ")
         if add_ver == 'y':
             break
         elif add_ver == 'n':
@@ -119,7 +126,7 @@ def delete_product():
             else:
                 break
         while True:
-            upd_ver = input("\nDo you really want to delete the product? y/n: ")
+            upd_ver = input("\nProceed to delete the product? y/n: ")
             if upd_ver == 'y':
                 break
             elif upd_ver == 'n':
@@ -159,14 +166,25 @@ def update_product():
                 continue
             else:
                 break
+        # fixing the position in the dictionary
         i = 1
+        # Entry represents the dictionary in the list 
         for entry in temp:
             if i == int(update_opt):
                 prod_name = entry["Product_Name"]
                 prod_price = entry["Product_Price"]
                 prod_qty = entry["Product_Quantity"]
                 print(f"Product name: {prod_name}")
-                prod_name = input("Enter updated product name: ")
+                while True:
+                    enter_name = input("Enter updated product name: ")
+                    validate_pname = check_name(enter_name, update_opt)
+                    if validate_pname == 'y':
+                        prod_name = enter_name
+                        break
+                    else:
+                        print("\nProduct name already exist!")
+                        continue
+
                 print(f"Quantity: {prod_qty}")
                 while True:
                     try:
@@ -185,7 +203,7 @@ def update_product():
                     prod_price = '{:.2f}'.format(updtprod_price)
                     break
                 while True:
-                    upd_ver = input("\nDo you really want to update the product details? y/n: ")
+                    upd_ver = input("\nProceed to update the product details? y/n: ")
                     if upd_ver == 'y':
                         break
                     elif upd_ver == 'n':
@@ -232,4 +250,35 @@ def confirm_prod(prodcon_name):
     return
 
 
+# check if product name exist
+def check_name(p_namu, opt):
+    with open("Product/prod.json", "r") as json_file:
+        c_prod_temp = json.load(json_file)
+    # list indexing usually begin with 0
+    # setting the first dict in temp equal to 1
+    # to get actual values of dictionary
+    i = 1
+    # entry represents the dictionaries in temp
+    for entry in c_prod_temp:
+        # checks whether index/dictionary position matches opt to manipulate that specific dictionary
+        if i == opt:
+            i = i + 1
+            continue
+        elif entry["Product_Name"] == p_namu:
+            return 'n'
+        else:
+            i = i + 1
+            continue
+    return 'y'
+
+
+def checky_name(p_namu):
+    with open("Product/prod.json", "r") as json_file:
+        c_prod_temp = json.load(json_file)
+    for entry in c_prod_temp:
+        if entry["Product_Name"] == p_namu:
+            return 'n'
+        else:
+            continue
+    return 'y'
 # product_info()

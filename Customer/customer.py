@@ -57,7 +57,7 @@ def add_customer():
     with open("Customer/cus.json", "r") as json_file:
         temp = json.load(json_file)
 
-    cus_data["Customer_Name"] = input("\nEnter customer's full name: ")
+        cus_data["Customer_Name"] = input("\nEnter customer's full name: ")
     while True:
         try:
             gender_rec = int(input("\nSelect 1 if customer is Male and 2 if customer is Female: "))
@@ -75,24 +75,34 @@ def add_customer():
     while True:
         mail = input("\nEnter customer's email:")
         confirm_format = checky(mail)
-        if confirm_format == 'y':
-            cus_data["Email"] = mail
-            break
+        validate_email = check_mail(mail)
+        if validate_email == 'y':
+            if confirm_format == 'y':
+                cus_data["Email"] = mail
+                break
+            else:
+                print("\nINVALID EMAIL FORMAT! Email format must be of: \"username@company.domain\"")
+                continue
         else:
-            print("\nINVALID EMAIL FORMAT! Email format must be of: \"username@company.domain\"")
+            print("\nEmail already exist!")
             continue
 
     while True:
         ftel_in = input("\nEnter customer's phone number:  ")
         confirm_pformat = check_numformat(ftel_in)
-        if confirm_pformat == 'y':
-            cus_data["Phone_Number"] = ftel_in
-            break
+        validate_pnum = check_fon(ftel_in)
+        if validate_pnum == 'y':
+            if confirm_pformat == 'y':
+                cus_data["Phone_Number"] = ftel_in
+                break
+            else:
+                print("\nINVALID PHONE NUMBER FORMAT! Enter values (0-9) and 10 digits long!")
+                continue
         else:
-            print("\nINVALID PHONE NUMBER FORMAT! Enter values (0-9) and 10 digits long!")
+            print("\nPhone number already exist!")
             continue
     while True:
-        add_ver = input("\nDo you really want to add customer? y/n: ")
+        add_ver = input("\nProceed to add customer? y/n: ")
         if add_ver == 'y':
             break
         elif add_ver == 'n':
@@ -140,7 +150,7 @@ def delete_customer():
                 break
 
         while True:
-            del_ver = input("\nDo you really want to delete the customer? y/n: ")
+            del_ver = input("\nProceed to delete the customer? y/n: ")
             if del_ver == 'y':
                 break
             elif del_ver == 'n':
@@ -209,24 +219,35 @@ def update_customer():
                 while True:
                     mail_in = input("Enter updated customer's email:")
                     confirm_format = checky(mail_in)
-                    if confirm_format == 'y':
-                        mail = mail_in
-                        break
+                    validate_email = check_mail(mail_in)
+                    if validate_email == 'y':
+                        if confirm_format == 'y':
+                            mail = mail_in
+                            break
+                        else:
+                            print("\nINVALID EMAIL FORMAT! Email format must be of: \"username@company.domain\"")
+                            continue
                     else:
-                        print("\nINVALID EMAIL FORMAT! Email format must be of: \"username@company.domain\"")
+                        print("\nEmail already exist!")
                         continue
+
                 print(f"\nPhone number: {tel}")
                 while True:
                     tel_in = input("Enter updated customer's phone number: ")
                     confirm_pformat = check_numformat(tel_in)
-                    if confirm_pformat == 'y':
-                        tel = tel_in
-                        break
+                    validate_pnum = check_fon(tel_in)
+                    if validate_pnum == 'y':
+                        if confirm_pformat == 'y':
+                            tel = tel_in
+                            break
+                        else:
+                            print("\nINVALID PHONE NUMBER FORMAT! Enter values (0-9) and 10 digits long!")
+                            continue
                     else:
-                        print("\nINVALID PHONE NUMBER FORMAT! Enter values (0-9) and 10 digits long!")
+                        print("\nPhone number already exist!")
                         continue
                 while True:
-                    upd_ver = input("\nDo you really want to update the customer details? y/n: ")
+                    upd_ver = input("\nProceed to update the customer details? y/n: ")
                     if upd_ver == 'y':
                         break
                     elif upd_ver == 'n':
@@ -337,4 +358,30 @@ def check_numformat(telno):
         return 'y'
     else:
         return
+
+
+# check if email exist
+def check_mail(c_mail):
+    with open("Customer/cus.json", "r") as json_file:
+        c_cus_temp = json.load(json_file)
+
+    for i in c_cus_temp:
+        if i["Email"] == c_mail:
+            return 'n'
+        else:
+            continue
+    return 'y'
+
+
+# check if number exist
+def check_fon(c_fon):
+    with open("Customer/cus.json", "r") as json_file:
+        c_cus_temp = json.load(json_file)
+
+    for i in c_cus_temp:
+        if i["Phone_Number"] == c_fon:
+            return 'n'
+        else:
+            continue
+    return 'y'
 # customer_info()
